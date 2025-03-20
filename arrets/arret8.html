@@ -20,6 +20,7 @@
             overflow: hidden;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             padding-bottom: 1rem;
+            width: 100%;
         }
         
         .bird-info, .animal-info {
@@ -84,6 +85,13 @@
             position: relative;
             cursor: pointer;
             overflow: hidden;
+            aspect-ratio: 16 / 9;
+        }
+        
+        .animal-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         
         .animal-image-container .click-hint {
@@ -133,6 +141,43 @@
             color: #2e7d32;
             text-align: center;
             margin-top: 0.5rem;
+            padding: 0 10px;
+        }
+        
+        /* Media queries pour la responsivité */
+        @media (max-width: 768px) {
+            .bird-grid, .animal-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .track-image {
+                max-width: 120px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .bird-grid, .animal-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .bird-card, .animal-card {
+                max-width: 100%;
+            }
+            
+            .animal-image-container {
+                aspect-ratio: 4 / 3;
+            }
+            
+            .animal-image-container .click-hint {
+                padding: 4px 8px;
+                font-size: 0.7rem;
+            }
+            
+            .track-label {
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
