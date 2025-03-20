@@ -79,15 +79,60 @@
             margin-bottom: 0.5rem;
         }
         
-        .animal-tracks {
+        /* Styles modifiés pour les empreintes d'animaux */
+        .animal-image-container {
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        
+        .animal-image-container .click-hint {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: rgba(46, 125, 50, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            z-index: 2;
+        }
+        
+        .track-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(100%);
+            transition: all 0.3s ease-in-out;
+            z-index: 1;
+        }
+        
+        .track-container.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
         
         .track-image {
             max-width: 150px;
-            margin: 0.5rem 0;
+            margin: 0.5rem auto;
+        }
+        
+        .track-label {
+            font-weight: bold;
+            color: #2e7d32;
+            text-align: center;
+            margin-top: 0.5rem;
         }
     </style>
 </head>
@@ -140,47 +185,53 @@
                 
                 <div class="animal-grid">
                     <div class="animal-card">
-                        <div class="arret-image">
+                        <div class="animal-image-container">
                             <img src="../img/26 - Renard roux.jpg" alt="Renard roux" class="main-image">
+                            <div class="click-hint">
+                                <i class="fas fa-hand-pointer"></i> Voir l'empreinte
+                            </div>
+                            <div class="track-container">
+                                <img src="../img/27 - Empreinte Renard roux.jpg" alt="Empreinte du Renard roux" class="track-image">
+                                <div class="track-label">Empreinte du Renard roux</div>
+                            </div>
                         </div>
                         <div class="animal-info">
                             <h4 class="animal-name">Renard roux (Vulpes vulpes)</h4>
                             <p>Le renard roux se cache dans des terriers, les terriers sont aussi appelés "Renardière"</p>
-                            <div class="animal-tracks">
-                                <div class="arret-image track-image">
-                                    <img src="../img/27 - Empreinte Renard roux.jpg" alt="Empreinte du Renard roux">
-                                </div>
-                            </div>
                         </div>
                     </div>
                     
                     <div class="animal-card">
-                        <div class="arret-image">
+                        <div class="animal-image-container">
                             <img src="../img/28 - Chevreuil Européen.jpg" alt="Chevreuil européen" class="main-image">
+                            <div class="click-hint">
+                                <i class="fas fa-hand-pointer"></i> Voir l'empreinte
+                            </div>
+                            <div class="track-container">
+                                <img src="../img/29 - Empreinte Chevreuil européen.jpg" alt="Empreinte du Chevreuil européen" class="track-image">
+                                <div class="track-label">Empreinte du Chevreuil européen</div>
+                            </div>
                         </div>
                         <div class="animal-info">
                             <h4 class="animal-name">Chevreuil européen (Capreolus capreolus)</h4>
                             <p>Le Chevreuil est le plus petit cervidé d'Europe ! Sa hauteur se situe entre 90 cm et 1,25m.</p>
-                            <div class="animal-tracks">
-                                <div class="arret-image track-image">
-                                    <img src="../img/29 - Empreinte Chevreuil européen.jpg" alt="Empreinte du Chevreuil européen">
-                                </div>
-                            </div>
                         </div>
                     </div>
                     
                     <div class="animal-card">
-                        <div class="arret-image">
+                        <div class="animal-image-container">
                             <img src="../img/30 - Loutre d_Europe.jpg" alt="Loutre d'Europe" class="main-image">
+                            <div class="click-hint">
+                                <i class="fas fa-hand-pointer"></i> Voir l'empreinte
+                            </div>
+                            <div class="track-container">
+                                <img src="../img/31 - Empreinte de Loutre d_Europe.jpg" alt="Empreinte de la Loutre d'Europe" class="track-image">
+                                <div class="track-label">Empreinte de la Loutre d'Europe</div>
+                            </div>
                         </div>
                         <div class="animal-info">
                             <h4 class="animal-name">Loutre d'Europe (Lutra lutra)</h4>
                             <p>La Loutre d'Europe est une espèce protégée, actuellement quasi menacée, et pourrait devenir vulnérable si des mesures de conservation appropriées ne sont pas mises en place.</p>
-                            <div class="animal-tracks">
-                                <div class="arret-image track-image">
-                                    <img src="../img/31 - Empreinte de Loutre d_Europe.jpg" alt="Empreinte de la Loutre d'Europe">
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -244,5 +295,17 @@
     </footer>
 
     <script src="../js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const animalImageContainers = document.querySelectorAll('.animal-image-container');
+            
+            animalImageContainers.forEach(container => {
+                container.addEventListener('click', () => {
+                    const trackContainer = container.querySelector('.track-container');
+                    trackContainer.classList.toggle('visible');
+                });
+            });
+        });
+    </script>
 </body>
 </html>
