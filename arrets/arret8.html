@@ -107,6 +107,7 @@
             align-items: center;
             gap: 5px;
             z-index: 2;
+            transition: all 0.3s ease;
         }
         
         .track-container {
@@ -233,7 +234,7 @@
                         <div class="animal-image-container">
                             <img src="../img/26 - Renard roux.jpg" alt="Renard roux" class="main-image">
                             <div class="click-hint">
-                                <i class="fas fa-hand-pointer"></i> Voir l'empreinte
+                                <i class="fas fa-hand-pointer"></i> <span class="hint-text">Voir l'empreinte</span>
                             </div>
                             <div class="track-container">
                                 <img src="../img/27 - Empreinte Renard roux.jpg" alt="Empreinte du Renard roux" class="track-image">
@@ -250,7 +251,7 @@
                         <div class="animal-image-container">
                             <img src="../img/28 - Chevreuil Européen.jpg" alt="Chevreuil européen" class="main-image">
                             <div class="click-hint">
-                                <i class="fas fa-hand-pointer"></i> Voir l'empreinte
+                                <i class="fas fa-hand-pointer"></i> <span class="hint-text">Voir l'empreinte</span>
                             </div>
                             <div class="track-container">
                                 <img src="../img/29 - Empreinte Chevreuil européen.jpg" alt="Empreinte du Chevreuil européen" class="track-image">
@@ -267,7 +268,7 @@
                         <div class="animal-image-container">
                             <img src="../img/30 - Loutre d_Europe.jpg" alt="Loutre d'Europe" class="main-image">
                             <div class="click-hint">
-                                <i class="fas fa-hand-pointer"></i> Voir l'empreinte
+                                <i class="fas fa-hand-pointer"></i> <span class="hint-text">Voir l'empreinte</span>
                             </div>
                             <div class="track-container">
                                 <img src="../img/31 - Empreinte de Loutre d_Europe.jpg" alt="Empreinte de la Loutre d'Europe" class="track-image">
@@ -347,7 +348,16 @@
             animalImageContainers.forEach(container => {
                 container.addEventListener('click', () => {
                     const trackContainer = container.querySelector('.track-container');
+                    const hintText = container.querySelector('.hint-text');
+                    
                     trackContainer.classList.toggle('visible');
+                    
+                    // Changer le texte du bouton selon l'état
+                    if (trackContainer.classList.contains('visible')) {
+                        hintText.textContent = "Voir l'animal";
+                    } else {
+                        hintText.textContent = "Voir l'empreinte";
+                    }
                 });
             });
         });
