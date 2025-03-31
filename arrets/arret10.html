@@ -22,14 +22,62 @@
             font-weight: bold;
             background-color: #f9a825;
             color: #333;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 2.5rem 0.5rem 1rem;
             border-radius: 4px;
             display: inline-block;
             margin: 1rem 0;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .mnemonic:hover {
+            background-color: #f57f17;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         
         .arret-highlight {
             font-weight: bold;
+        }
+        
+        .tree-comparison {
+            margin-top: 1rem;
+            text-align: center;
+        }
+        
+        .comparison-image {
+            width: 80%;
+            height: auto;
+            margin: 1rem auto;
+        }
+        
+        .tree-labels {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 1rem;
+        }
+        
+        .tree-label {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .hetre-label {
+            color: #2ecc71;
+        }
+        
+        .charme-label {
+            color: #e74c3c;
+        }
+        
+        .tap-icon {
+            position: absolute;
+            top: 50%;
+            right: 1rem;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            color: #333;
         }
     </style>
 </head>
@@ -53,8 +101,17 @@
             <div class="arret-content">
                 <p>Vous êtes actuellement devant une allée de grands hêtres. Pour le repérer, il est possible d'utiliser des moyens mémotechniques :</p>
                 
-                <div class="mnemonic">
+                <div class="mnemonic" id="mnemonic-button">
                     "Le charme à dents c'est d'hêtre à poil"
+                    <span class="tap-icon"><i class="fas fa-hand-pointer"></i></span>
+                </div>
+                
+                <div class="tree-comparison" id="tree-comparison" style="display: none;">
+                    <img src="../img/hetre_charme.png" alt="Comparaison feuilles de hêtre et de charme" class="comparison-image">
+                    <div class="tree-labels">
+                        <span class="tree-label hetre-label">Hêtre</span>
+                        <span class="tree-label charme-label">Charme</span>
+                    </div>
                 </div>
                 
                 <p>Prenez le temps d'observer, d'écouter et d'admirer la beauté de ce qui vous entoure…</p>
@@ -87,5 +144,15 @@
     </footer>
 
     <script src="../js/main.js"></script>
+    <script>
+        document.getElementById('mnemonic-button').addEventListener('click', function() {
+            var treeComparison = document.getElementById('tree-comparison');
+            if (treeComparison.style.display === 'none') {
+                treeComparison.style.display = 'block';
+            } else {
+                treeComparison.style.display = 'none';
+            }
+        });
+    </script>
 </body>
 </html>
