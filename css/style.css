@@ -80,6 +80,35 @@ section h2 {
     margin: 0 auto;
 }
 
+.intro h3 {
+    font-family: 'Georgia', serif;
+    font-size: 1.8rem;
+    color: var(--accent-color);
+    margin: 1rem 0 1.5rem;
+    font-style: italic;
+    position: relative;
+    display: inline-block;
+    padding: 0 2rem;
+}
+
+.intro h3::before,
+.intro h3::after {
+    content: "";
+    position: absolute;
+    height: 2px;
+    background-color: var(--accent-color);
+    width: 50px;
+    top: 50%;
+}
+
+.intro h3::before {
+    left: -40px;
+}
+
+.intro h3::after {
+    right: -40px;
+}
+
 .intro p {
     margin-bottom: 2rem;
     font-size: 1.1rem;
@@ -146,6 +175,14 @@ section h2 {
     max-height: 400px;
     object-fit: contain;
     display: block;
+}
+
+.arret-image .logo-cen {
+    width: auto;
+    max-width: 80%;
+    height: 200px;
+    object-fit: contain;
+    margin: 20px auto;
 }
 
 .arret-image p {
