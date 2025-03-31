@@ -1,0 +1,14 @@
+{
+"type": "FeatureCollection",
+"name": "arrets",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::2154" } },
+"features": [
+{ "type": "Feature", "properties": { "id": 1, "Arrêts": "Un paysage représentatif du PNR / Témoignages d'hier, trésors d'aujourd'hui (Levade)" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 625430.08990469481796, 6504407.781821580603719 ] ] } },
+{ "type": "Feature", "properties": { "id": 2, "Arrêts": "Témoignages d'hier, trésors d'aujourd'hui (Pont planche / Pierre de clôture)" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 625422.866130917915143, 6504340.063106013461947 ] ] } },
+{ "type": "Feature", "properties": { "id": 4, "Arrêts": "Pause au coeur du vivant" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 625591.058855734299868, 6504151.355754235759377 ] ] } },
+{ "type": "Feature", "properties": { "id": 5, "Arrêts": "Témoignages d'hier, trésors d'aujourd'hui (Grands Hêtres et chemin creux)" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 625558.179694260470569, 6504079.955701402388513 ] ] } },
+{ "type": "Feature", "properties": { "id": 8, "Arrêts": "Témoignages d'hier, trésors d'aujourd'hui (Sautadour)" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 625530.749864729936235, 6504179.473762165755033 ] ] } },
+{ "type": "Feature", "properties": { "id": 9, "Arrêts": "Témoignages d'hier, trésors d'aujourd'hui (Moulins)" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 625435.126679836306721, 6503959.467702518217266 ] ] } },
+{ "type": "Feature", "properties": { "id": 10, "Arrêts": "Protégeons la nature ensemble / Faune et flore au fil de l'eau" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 625450.810038621886633, 6504245.441635166294873 ] ] } }
+]
+}

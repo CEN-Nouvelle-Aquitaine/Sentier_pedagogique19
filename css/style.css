@@ -804,3 +804,41 @@ audio::-webkit-media-controls-play-button {
         right: 0;
     }
 }
+
+/* Carte interactive */
+.interactive-map {
+    width: 100%;
+    height: 500px;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow);
+}
+
+.map-info {
+    text-align: center;
+    font-style: italic;
+    color: var(--primary-color);
+}
+
+/* Style pour les popups de la carte */
+.arret-popup {
+    text-align: center;
+}
+
+.arret-popup h3 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.arret-popup a {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: var(--primary-color);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.arret-popup a:hover {
+    text-decoration: underline;
+}
