@@ -60,34 +60,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Ajouter les arrêts à la carte avec des marqueurs noirs
                 const arretsLayer = L.geoJSON(arretsData, {
-                    pointToLayer: function(feature, latlng) {
-                        return L.circleMarker(latlng, {
-                            radius: 8,
-                            fillColor: '#000',
-                            color: '#fff',
-                            weight: 2,
-                            opacity: 1,
-                            fillOpacity: 0.8
-                        });
-                    },
                     onEachFeature: function(feature, layer) {
-                        // Créer le contenu du popup pour chaque arrêt
-                        const arretId = feature.properties.id;
-                        const arretName = feature.properties.Arrêts;
+                        const coordsArray = feature.geometry.coordinates;
                         
-                        const popupContent = `
-                            <div class="arret-popup">
-                                <h3>Arrêt ${arretId}</h3>
-                                <p>${arretName}</p>
-                                <a href="arrets/arret${arretId}.html">Découvrir cet arrêt</a>
-                            </div>
-                        `;
-                        
-                        // Ajouter le popup au marqueur
-                        layer.bindPopup(popupContent);
-                    }
-                }).addTo(map);
+                        // Si c'est un MultiPoint, on crée plusieurs marqueurs
+                        if (feature.geometry.type === "MultiPoint") {
+                            coordsArray.forEach(coords => {
+                                const marker = L.circleMarker([coords[1], coords[0]], {
+                                    radius: 8,
+                                    fillColor: '#000',
+                                    color: '#fff',
+                                    weight: 2,
+                                    opacity: 1,
+                                    fillOpacity: 0.8
+                                }).bindPopup(/* contenu ici */);
                 
+                                marker.addTo(map);
+ 
                 // Créer un groupe de couches pour ajuster la vue
                 const allLayers = L.featureGroup([sentierLayer, arretsLayer]);
                 
