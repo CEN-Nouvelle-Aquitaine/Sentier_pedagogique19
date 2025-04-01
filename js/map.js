@@ -8,6 +8,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
         console.log('Initialisation de la carte...', currentArretId ? `Arrêt actuel: ${currentArretId}` : 'Page d\'accueil');
 
+        // Extraire le numéro d'arrêt à partir de l'URL si non fourni
+        if (!currentArretId && window.location.pathname.includes('/arrets/arret')) {
+            const match = window.location.pathname.match(/\/arrets\/arret(\d+)\.html/);
+            if (match && match[1]) {
+                currentArretId = match[1];
+                console.log(`Numéro d'arrêt extrait de l'URL: ${currentArretId}`);
+            }
+        }
+
         // Initialiser la carte avec une vue sur la Corrèze (France)
         const map = L.map(mapElementId).setView([45.6328, 2.0425], 16);
 
@@ -131,7 +140,12 @@ document.addEventListener('DOMContentLoaded', function() {
                             // Créer le contenu du popup pour chaque arrêt
                             const arretId = feature.properties.id;
                             const arretName = feature.properties.Arrêts || `Arrêt ${arretId}`;
-                            const arretsAssocies = feature.properties.arrets ? feature.properties.arrets.split(',') : [arretId];
+                            const arretsAssocies = feature.properties.arrets ? feature.properties.arrets.split(',').map(a => a.trim()) : [arretId.toString()];
+                            
+                            console.log(`Point ${arretId} - Arrêts associés:`, arretsAssocies, `Arrêt actuel: ${currentArretId}`);
+                            
+                            // Vérifier si l'arrêt actuel est associé à ce point
+                            const isCurrentArretAssociated = currentArretId && arretsAssocies.includes(currentArretId.toString());
                             
                             let popupContent = `
                                 <div class="arret-popup">
@@ -139,40 +153,25 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <p>${arretName}</p>
                             `;
                             
-                            // Si plusieurs arrêts sont associés à ce point
-                            if (arretsAssocies.length > 1) {
-                                popupContent += `<div class="arrets-associes">`;
+                            popupContent += `<div class="arrets-associes">`;
+                            
+                            // Ajouter des liens vers chaque arrêt associé
+                            arretsAssocies.forEach(arretNum => {
+                                const isCurrentArret = arretNum.toString() === currentArretId?.toString();
                                 
-                                // Vérifier si l'un des arrêts associés est l'arrêt actuel
-                                const isCurrentArretAssociated = arretsAssocies.includes(currentArretId);
+                                popupContent += `<div class="arret-item ${isCurrentArret ? 'current-arret' : ''}">`;
+                                popupContent += `<h4>Arrêt ${arretNum}</h4>`;
                                 
-                                // Ajouter des liens vers chaque arrêt associé
-                                arretsAssocies.forEach(arretNum => {
-                                    const isCurrentArret = arretNum == currentArretId;
-                                    
-                                    popupContent += `<div class="arret-item ${isCurrentArret ? 'current-arret' : ''}">`;
-                                    popupContent += `<h4>Arrêt ${arretNum}</h4>`;
-                                    
-                                    if (isCurrentArret) {
-                                        popupContent += `<p class="current-location"><strong>Vous êtes ici</strong></p>`;
-                                    } else {
-                                        popupContent += `<a href="${basePath}arrets/arret${arretNum}.html" class="arret-link">Découvrir cet arrêt</a>`;
-                                    }
-                                    
-                                    popupContent += `</div>`;
-                                });
-                                
-                                popupContent += `</div>`;
-                            } else {
-                                // Si c'est l'arrêt actuel, ajouter "Vous êtes ici"
-                                if (arretId == currentArretId || arretsAssocies.includes(currentArretId)) {
+                                if (isCurrentArret) {
                                     popupContent += `<p class="current-location"><strong>Vous êtes ici</strong></p>`;
                                 } else {
-                                    const linkArretId = arretsAssocies[0] || arretId;
-                                    popupContent += `<a href="${basePath}arrets/arret${linkArretId}.html" class="arret-link">Découvrir cet arrêt</a>`;
+                                    popupContent += `<a href="${basePath}arrets/arret${arretNum}.html" class="arret-link">Découvrir cet arrêt</a>`;
                                 }
-                            }
+                                
+                                popupContent += `</div>`;
+                            });
                             
+                            popupContent += `</div>`;
                             popupContent += `</div>`;
                             
                             // Ajouter des styles CSS pour les popups
@@ -229,7 +228,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             layer.bindPopup(popupContent + popupStyle);
                             
                             // Si c'est l'arrêt actuel, ouvrir automatiquement le popup
-                            if (arretId == currentArretId || arretsAssocies.includes(currentArretId)) {
+                            if (isCurrentArretAssociated) {
                                 setTimeout(() => {
                                     layer.openPopup();
                                 }, 500);
