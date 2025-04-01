@@ -112,9 +112,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     const arretGeoJSON = L.geoJSON(data, {
                         pointToLayer: function(feature, latlng) {
                             const arretId = feature.properties.id;
+                            const arretsAssocies = feature.properties.arrets ? feature.properties.arrets.split(',').map(a => a.trim()) : [arretId.toString()];
                             
-                            // Si c'est l'arrêt actuel, le marquer en rouge
-                            if (arretId == currentArretId) {
+                            // Vérifier si l'arrêt actuel est associé à ce point
+                            const isCurrentArretAssociated = currentArretId && arretsAssocies.includes(currentArretId.toString());
+                            
+                            // Si ce point est associé à l'arrêt actuel, le marquer en rouge
+                            if (isCurrentArretAssociated) {
+                                console.log(`Point ${arretId} marqué en rouge car associé à l'arrêt ${currentArretId}`);
                                 currentArretCoords = latlng;
                                 defaultMarkerAdded = true;
                                 return L.circleMarker(latlng, {
