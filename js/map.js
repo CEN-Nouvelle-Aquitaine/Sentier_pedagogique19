@@ -131,27 +131,105 @@ document.addEventListener('DOMContentLoaded', function() {
                             // Créer le contenu du popup pour chaque arrêt
                             const arretId = feature.properties.id;
                             const arretName = feature.properties.Arrêts || `Arrêt ${arretId}`;
+                            const arretsAssocies = feature.properties.arrets ? feature.properties.arrets.split(',') : [arretId];
                             
                             let popupContent = `
                                 <div class="arret-popup">
-                                    <h3>Arrêt ${arretId}</h3>
+                                    <h3>Point ${arretId}</h3>
                                     <p>${arretName}</p>
                             `;
                             
-                            // Si c'est l'arrêt actuel, ajouter "Vous êtes ici"
-                            if (arretId == currentArretId) {
-                                popupContent += `<p class="current-location"><strong>Vous êtes ici</strong></p>`;
+                            // Si plusieurs arrêts sont associés à ce point
+                            if (arretsAssocies.length > 1) {
+                                popupContent += `<div class="arrets-associes">`;
+                                
+                                // Vérifier si l'un des arrêts associés est l'arrêt actuel
+                                const isCurrentArretAssociated = arretsAssocies.includes(currentArretId);
+                                
+                                // Ajouter des liens vers chaque arrêt associé
+                                arretsAssocies.forEach(arretNum => {
+                                    const isCurrentArret = arretNum == currentArretId;
+                                    
+                                    popupContent += `<div class="arret-item ${isCurrentArret ? 'current-arret' : ''}">`;
+                                    popupContent += `<h4>Arrêt ${arretNum}</h4>`;
+                                    
+                                    if (isCurrentArret) {
+                                        popupContent += `<p class="current-location"><strong>Vous êtes ici</strong></p>`;
+                                    } else {
+                                        popupContent += `<a href="${basePath}arrets/arret${arretNum}.html" class="arret-link">Découvrir cet arrêt</a>`;
+                                    }
+                                    
+                                    popupContent += `</div>`;
+                                });
+                                
+                                popupContent += `</div>`;
                             } else {
-                                popupContent += `<a href="${basePath}arrets/arret${arretId}.html">Découvrir cet arrêt</a>`;
+                                // Si c'est l'arrêt actuel, ajouter "Vous êtes ici"
+                                if (arretId == currentArretId || arretsAssocies.includes(currentArretId)) {
+                                    popupContent += `<p class="current-location"><strong>Vous êtes ici</strong></p>`;
+                                } else {
+                                    const linkArretId = arretsAssocies[0] || arretId;
+                                    popupContent += `<a href="${basePath}arrets/arret${linkArretId}.html" class="arret-link">Découvrir cet arrêt</a>`;
+                                }
                             }
                             
                             popupContent += `</div>`;
                             
-                            // Ajouter le popup au marqueur
-                            layer.bindPopup(popupContent);
+                            // Ajouter des styles CSS pour les popups
+                            const popupStyle = `
+                                <style>
+                                    .arret-popup {
+                                        padding: 5px;
+                                        max-width: 250px;
+                                    }
+                                    .arret-popup h3 {
+                                        margin: 0 0 8px 0;
+                                        color: #2e7d32;
+                                        font-size: 16px;
+                                    }
+                                    .arret-popup h4 {
+                                        margin: 8px 0 4px 0;
+                                        color: #2e7d32;
+                                        font-size: 14px;
+                                    }
+                                    .arret-popup p {
+                                        margin: 5px 0;
+                                    }
+                                    .arrets-associes {
+                                        margin-top: 10px;
+                                        border-top: 1px solid #eee;
+                                        padding-top: 8px;
+                                    }
+                                    .arret-item {
+                                        margin-bottom: 8px;
+                                        padding: 5px;
+                                        background-color: #f9f9f9;
+                                        border-radius: 4px;
+                                    }
+                                    .current-arret {
+                                        background-color: #e8f5e9;
+                                        border-left: 3px solid #2e7d32;
+                                    }
+                                    .current-location {
+                                        color: #d32f2f;
+                                    }
+                                    .arret-link {
+                                        display: inline-block;
+                                        margin-top: 5px;
+                                        color: #1976d2;
+                                        text-decoration: none;
+                                    }
+                                    .arret-link:hover {
+                                        text-decoration: underline;
+                                    }
+                                </style>
+                            `;
+                            
+                            // Ajouter le popup au marqueur avec les styles CSS
+                            layer.bindPopup(popupContent + popupStyle);
                             
                             // Si c'est l'arrêt actuel, ouvrir automatiquement le popup
-                            if (arretId == currentArretId) {
+                            if (arretId == currentArretId || arretsAssocies.includes(currentArretId)) {
                                 setTimeout(() => {
                                     layer.openPopup();
                                 }, 500);
