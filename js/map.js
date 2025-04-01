@@ -1,94 +1,207 @@
 // Initialisation de la carte du sentier pédagogique
 document.addEventListener('DOMContentLoaded', function() {
-    // Vérifier si l'élément de carte existe
-    const mapElement = document.getElementById('sentier-map');
-    if (!mapElement) return;
+    // Fonction d'initialisation de la carte qui peut être appelée sur n'importe quelle page
+    function initMap(mapElementId, currentArretId = null) {
+        // Vérifier si l'élément de carte existe
+        const mapElement = document.getElementById(mapElementId);
+        if (!mapElement) return;
 
-    console.log('Initialisation de la carte...');
+        console.log('Initialisation de la carte...', currentArretId ? `Arrêt actuel: ${currentArretId}` : 'Page d\'accueil');
 
-    // Initialiser la carte avec une vue sur la Corrèze (France)
-    const map = L.map('sentier-map').setView([45.3, 1.8], 10);
+        // Initialiser la carte avec une vue sur la Corrèze (France)
+        const map = L.map(mapElementId).setView([45.6328, 2.0425], 16);
 
-    // Ajouter un fond de carte OpenStreetMap
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-        maxZoom: 19
-    }).addTo(map);
+        // Définir les différents fonds de carte
+        const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            maxZoom: 19
+        });
 
-    // Fonction pour charger les données GeoJSON
-    function loadGeoJSON() {
-        console.log('Chargement des données GeoJSON...');
-        
-        // Charger les données du sentier (déjà en WGS84)
-        fetch('./couches_webmapping/sentiers.geojson')
-            .then(response => {
-                console.log('Réponse du serveur pour sentiers.geojson:', response.status);
-                if (!response.ok) {
-                    throw new Error('Impossible de charger le fichier sentiers.geojson');
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Données du sentier chargées:', data);
-                
-                // Ajouter le sentier à la carte avec un style en pointillés bleus
-                const sentierLayer = L.geoJSON(data, {
-                    style: {
-                        color: '#0066cc',
-                        weight: 3,
-                        opacity: 0.8,
-                        dashArray: '5, 10',
-                        lineCap: 'round'
+        const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+            maxZoom: 19
+        });
+
+        // Ajouter le fond de carte OSM par défaut
+        osmLayer.addTo(map);
+
+        // Créer un contrôle de couches pour permettre à l'utilisateur de choisir le fond de carte
+        const baseMaps = {
+            "OpenStreetMap": osmLayer,
+            "Satellite": satelliteLayer
+        };
+
+        // Créer des groupes de couches pour les sentiers et les arrêts
+        const sentierLayer = L.layerGroup();
+        const arretsLayer = L.layerGroup();
+
+        // Ajouter les groupes de couches à la carte
+        sentierLayer.addTo(map);
+        arretsLayer.addTo(map);
+
+        // Créer un contrôle de couches pour les données
+        const overlayMaps = {
+            "Sentier": sentierLayer,
+            "Arrêts": arretsLayer
+        };
+
+        // Ajouter le contrôle de couches à la carte
+        L.control.layers(baseMaps, overlayMaps, {
+            position: 'topright'
+        }).addTo(map);
+
+        // Ajouter un contrôle d'échelle
+        L.control.scale({
+            imperial: false,
+            metric: true
+        }).addTo(map);
+
+        // Variable pour stocker les coordonnées de l'arrêt actuel
+        let currentArretCoords = null;
+
+        // Fonction pour charger les données GeoJSON
+        function loadGeoJSON() {
+            console.log('Chargement des données GeoJSON...');
+            
+            // Déterminer le chemin relatif pour les fichiers GeoJSON
+            // Si nous sommes sur une page d'arrêt, le chemin doit être différent
+            const isArretPage = window.location.href.includes('/arrets/');
+            const basePath = isArretPage ? '../' : './';
+            
+            // Charger les données du sentier
+            fetch(`${basePath}couches_webmapping/sentiers.geojson`)
+                .then(response => {
+                    console.log('Réponse du serveur pour sentiers.geojson:', response.status);
+                    if (!response.ok) {
+                        throw new Error('Impossible de charger le fichier sentiers.geojson');
                     }
-                }).addTo(map);
-                
-                // Charger les données des arrêts
-                return fetch('./couches_webmapping/arrets.geojson')
-                    .then(response => {
-                        console.log('Réponse du serveur pour arrets.geojson:', response.status);
-                        if (!response.ok) {
-                            throw new Error('Impossible de charger le fichier arrets.geojson');
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Données du sentier chargées:', data);
+                    
+                    // Ajouter le sentier à la carte avec un style en pointillés bleus
+                    L.geoJSON(data, {
+                        style: {
+                            color: '#0066cc',
+                            weight: 3,
+                            opacity: 0.8,
+                            dashArray: '5, 10',
+                            lineCap: 'round'
                         }
-                        return response.json();
-                    })
-                    .then(data => {
-                        return { sentierLayer, arretsData: data };
-                    });
-            })
-            .then(({ sentierLayer, arretsData }) => {
-                console.log('Données des arrêts chargées:', arretsData);
-                
-                // Ajouter les arrêts à la carte avec des marqueurs noirs
-                const arretsLayer = L.geoJSON(arretsData, {
-                    onEachFeature: function(feature, layer) {
-                        const coordsArray = feature.geometry.coordinates;
-                        
-                        // Si c'est un MultiPoint, on crée plusieurs marqueurs
-                        if (feature.geometry.type === "MultiPoint") {
-                            coordsArray.forEach(coords => {
-                                const marker = L.circleMarker([coords[1], coords[0]], {
+                    }).addTo(sentierLayer);
+                    
+                    // Charger les données des arrêts
+                    return fetch(`${basePath}couches_webmapping/arrets.geojson`);
+                })
+                .then(response => {
+                    console.log('Réponse du serveur pour arrets.geojson:', response.status);
+                    if (!response.ok) {
+                        throw new Error('Impossible de charger le fichier arrets.geojson');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Données des arrêts chargées:', data);
+                    
+                    // Ajouter les arrêts à la carte avec des marqueurs noirs
+                    L.geoJSON(data, {
+                        pointToLayer: function(feature, latlng) {
+                            const arretId = feature.properties.id;
+                            
+                            // Si c'est l'arrêt actuel, le marquer en rouge
+                            if (arretId == currentArretId) {
+                                currentArretCoords = latlng;
+                                return L.circleMarker(latlng, {
+                                    radius: 10,
+                                    fillColor: '#ff0000',
+                                    color: '#fff',
+                                    weight: 2,
+                                    opacity: 1,
+                                    fillOpacity: 0.8
+                                });
+                            } else {
+                                return L.circleMarker(latlng, {
                                     radius: 8,
                                     fillColor: '#000',
                                     color: '#fff',
                                     weight: 2,
                                     opacity: 1,
                                     fillOpacity: 0.8
-                                }).bindPopup(/* contenu ici */);
-                
-                                marker.addTo(map);
- 
-                // Créer un groupe de couches pour ajuster la vue
-                const allLayers = L.featureGroup([sentierLayer, arretsLayer]);
-                
-                // Ajuster la vue de la carte pour montrer tous les éléments
-                map.fitBounds(allLayers.getBounds(), { padding: [30, 30] });
-            })
-            .catch(error => {
-                console.error('Erreur lors du chargement des données GeoJSON:', error);
-                mapElement.innerHTML = '<p class="error-message">Impossible de charger la carte. Veuillez réessayer plus tard.</p>';
-            });
+                                });
+                            }
+                        },
+                        onEachFeature: function(feature, layer) {
+                            // Créer le contenu du popup pour chaque arrêt
+                            const arretId = feature.properties.id;
+                            const arretName = feature.properties.Arrêts;
+                            
+                            let popupContent = `
+                                <div class="arret-popup">
+                                    <h3>Arrêt ${arretId}</h3>
+                                    <p>${arretName}</p>
+                            `;
+                            
+                            // Si c'est l'arrêt actuel, ajouter "Vous êtes ici"
+                            if (arretId == currentArretId) {
+                                popupContent += `<p class="current-location"><strong>Vous êtes ici</strong></p>`;
+                            } else {
+                                popupContent += `<a href="${basePath}arrets/arret${arretId}.html">Découvrir cet arrêt</a>`;
+                            }
+                            
+                            popupContent += `</div>`;
+                            
+                            // Ajouter le popup au marqueur
+                            layer.bindPopup(popupContent);
+                            
+                            // Si c'est l'arrêt actuel, ouvrir automatiquement le popup
+                            if (arretId == currentArretId) {
+                                setTimeout(() => {
+                                    layer.openPopup();
+                                }, 500);
+                            }
+                        }
+                    }).addTo(arretsLayer);
+                    
+                    // Si nous sommes sur une page d'arrêt, centrer la carte sur l'arrêt actuel
+                    if (currentArretCoords) {
+                        map.setView(currentArretCoords, 17);
+                    } else {
+                        // Sinon, ajuster la vue pour montrer tout le sentier
+                        const bounds = sentierLayer.getBounds();
+                        if (bounds.isValid()) {
+                            map.fitBounds(bounds, { padding: [30, 30] });
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('Erreur lors du chargement des données GeoJSON:', error);
+                    mapElement.innerHTML = '<p class="error-message">Impossible de charger la carte. Veuillez réessayer plus tard.</p>';
+                });
+        }
+
+        // Charger les données GeoJSON
+        loadGeoJSON();
+        
+        return map;
     }
 
-    // Charger les données GeoJSON
-    loadGeoJSON();
+    // Initialiser la carte sur la page d'accueil
+    if (document.getElementById('sentier-map')) {
+        initMap('sentier-map');
+    }
+    
+    // Initialiser la carte sur les pages d'arrêt
+    if (document.getElementById('arret-map')) {
+        // Récupérer l'ID de l'arrêt à partir de l'URL
+        const urlPath = window.location.pathname;
+        const arretMatch = urlPath.match(/arret(\d+)\.html$/);
+        const arretId = arretMatch ? arretMatch[1] : null;
+        
+        if (arretId) {
+            initMap('arret-map', arretId);
+        } else {
+            initMap('arret-map');
+        }
+    }
 });
