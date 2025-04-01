@@ -32,21 +32,14 @@ document.addEventListener('DOMContentLoaded', function() {
         };
 
         // Créer des groupes de couches pour les sentiers et les arrêts
-        const sentierLayer = L.layerGroup();
-        const arretsLayer = L.layerGroup();
-
-        // Ajouter les groupes de couches à la carte
-        sentierLayer.addTo(map);
-        arretsLayer.addTo(map);
-
-        // Créer un contrôle de couches pour les données
-        const overlayMaps = {
-            "Sentier": sentierLayer,
-            "Arrêts": arretsLayer
-        };
+        const sentierLayer = L.layerGroup().addTo(map);
+        const arretsLayer = L.layerGroup().addTo(map);
 
         // Ajouter le contrôle de couches à la carte
-        L.control.layers(baseMaps, overlayMaps, {
+        L.control.layers(baseMaps, {
+            "Sentier": sentierLayer,
+            "Arrêts": arretsLayer
+        }, {
             position: 'topright'
         }).addTo(map);
 
@@ -58,13 +51,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Variable pour stocker les coordonnées de l'arrêt actuel
         let currentArretCoords = null;
+        
+        // Créer un marqueur par défaut pour l'arrêt actuel si aucune correspondance n'est trouvée dans le GeoJSON
+        let defaultMarkerAdded = false;
 
         // Fonction pour charger les données GeoJSON
         function loadGeoJSON() {
             console.log('Chargement des données GeoJSON...');
             
             // Déterminer le chemin relatif pour les fichiers GeoJSON
-            // Si nous sommes sur une page d'arrêt, le chemin doit être différent
             const isArretPage = window.location.href.includes('/arrets/');
             const basePath = isArretPage ? '../' : './';
             
@@ -73,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(response => {
                     console.log('Réponse du serveur pour sentiers.geojson:', response.status);
                     if (!response.ok) {
-                        throw new Error('Impossible de charger le fichier sentiers.geojson');
+                        throw new Error(`Impossible de charger le fichier sentiers.geojson (${response.status})`);
                     }
                     return response.json();
                 })
@@ -97,7 +92,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(response => {
                     console.log('Réponse du serveur pour arrets.geojson:', response.status);
                     if (!response.ok) {
-                        throw new Error('Impossible de charger le fichier arrets.geojson');
+                        throw new Error(`Impossible de charger le fichier arrets.geojson (${response.status})`);
                     }
                     return response.json();
                 })
@@ -105,13 +100,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.log('Données des arrêts chargées:', data);
                     
                     // Ajouter les arrêts à la carte avec des marqueurs noirs
-                    L.geoJSON(data, {
+                    const arretGeoJSON = L.geoJSON(data, {
                         pointToLayer: function(feature, latlng) {
                             const arretId = feature.properties.id;
                             
                             // Si c'est l'arrêt actuel, le marquer en rouge
                             if (arretId == currentArretId) {
                                 currentArretCoords = latlng;
+                                defaultMarkerAdded = true;
                                 return L.circleMarker(latlng, {
                                     radius: 10,
                                     fillColor: '#ff0000',
@@ -134,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         onEachFeature: function(feature, layer) {
                             // Créer le contenu du popup pour chaque arrêt
                             const arretId = feature.properties.id;
-                            const arretName = feature.properties.Arrêts;
+                            const arretName = feature.properties.Arrêts || `Arrêt ${arretId}`;
                             
                             let popupContent = `
                                 <div class="arret-popup">
@@ -163,14 +159,52 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     }).addTo(arretsLayer);
                     
+                    // Si nous sommes sur une page d'arrêt mais que l'arrêt n'a pas été trouvé dans le GeoJSON,
+                    // créer un marqueur par défaut près du centre de la carte
+                    if (currentArretId && !defaultMarkerAdded) {
+                        console.log(`L'arrêt ${currentArretId} n'a pas été trouvé dans le GeoJSON, création d'un marqueur par défaut`);
+                        
+                        // Calculer une position approximative pour l'arrêt manquant
+                        // On utilise le centre de la carte avec un léger décalage basé sur l'ID de l'arrêt
+                        const center = map.getCenter();
+                        const offset = 0.0005 * currentArretId;
+                        const latlng = L.latLng(center.lat + offset, center.lng + offset);
+                        
+                        // Créer un marqueur rouge pour l'arrêt actuel
+                        const marker = L.circleMarker(latlng, {
+                            radius: 10,
+                            fillColor: '#ff0000',
+                            color: '#fff',
+                            weight: 2,
+                            opacity: 1,
+                            fillOpacity: 0.8
+                        }).addTo(arretsLayer);
+                        
+                        // Ajouter un popup au marqueur
+                        const popupContent = `
+                            <div class="arret-popup">
+                                <h3>Arrêt ${currentArretId}</h3>
+                                <p>Vous êtes ici</p>
+                            </div>
+                        `;
+                        marker.bindPopup(popupContent).openPopup();
+                        
+                        currentArretCoords = latlng;
+                    }
+                    
                     // Si nous sommes sur une page d'arrêt, centrer la carte sur l'arrêt actuel
                     if (currentArretCoords) {
                         map.setView(currentArretCoords, 17);
                     } else {
                         // Sinon, ajuster la vue pour montrer tout le sentier
-                        const bounds = sentierLayer.getBounds();
-                        if (bounds.isValid()) {
-                            map.fitBounds(bounds, { padding: [30, 30] });
+                        try {
+                            const bounds = sentierLayer.getBounds();
+                            if (bounds && bounds.isValid()) {
+                                map.fitBounds(bounds, { padding: [30, 30] });
+                            }
+                        } catch (e) {
+                            console.error('Erreur lors de l\'ajustement de la vue:', e);
+                            map.setView([45.6328, 2.0425], 16);
                         }
                     }
                 })
