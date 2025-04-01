@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     
                     // Si nous sommes sur une page d'arrêt, centrer la carte sur l'arrêt actuel
                     if (currentArretCoords) {
-                        map.setView(currentArretCoords, 17);
+                        map.setView(currentArretCoords, 16);
                     } else {
                         // Sinon, ajuster la vue pour montrer tout le sentier
                         try {
