@@ -179,20 +179,38 @@ function closeImagePopup() {
     }
 }
 
-
 document.addEventListener('DOMContentLoaded', function() {
   // Fonction pour détecter si l'utilisateur est sur mobile
   function isMobileDevice() {
     return /Mobi|Android/i.test(navigator.userAgent);
   }
 
-  // Afficher le popup si l'utilisateur est sur mobile
-  if (isMobileDevice()) {
+  // Fonction pour détecter si l'écran est en mode portrait
+  function isPortraitMode() {
+    return window.matchMedia("(orientation: portrait)").matches;
+  }
+
+  // Afficher le popup si l'utilisateur est sur mobile ET en mode portrait
+  if (isMobileDevice() && isPortraitMode()) {
     const popup = document.getElementById('orientation-popup');
     if (popup) {
       popup.style.display = 'flex';
     }
   }
+
+  // Ajouter un écouteur d'événements pour détecter les changements d'orientation
+  window.addEventListener('resize', function() {
+    const popup = document.getElementById('orientation-popup');
+    if (popup && isMobileDevice()) {
+      // Afficher le popup uniquement si on passe en mode portrait
+      if (isPortraitMode()) {
+        popup.style.display = 'flex';
+      } else {
+        // Masquer le popup si on passe en mode paysage
+        popup.style.display = 'none';
+      }
+    }
+  });
 });
 
 /**
