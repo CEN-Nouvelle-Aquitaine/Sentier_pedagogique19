@@ -10,6 +10,19 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 </head>
 <body>
+    <!-- Popup d'orientation pour mobile -->
+    <div id="orientation-popup" class="popup-overlay" style="display: none;">
+        <div class="popup-content">
+            <span class="close-btn" onclick="closeOrientationPopup()">&times;</span>
+            <h2>Meilleure Expérience</h2>
+            <div class="popup-icon">
+                <i class="fas fa-mobile-alt"></i>
+                <i class="fas fa-sync"></i>
+            </div>
+            <p>Pour une meilleure expérience utilisateur, notamment pour les quiz, veuillez tourner votre téléphone en mode paysage.</p>
+            <button onclick="closeOrientationPopup()" class="popup-button">J'ai compris</button>
+        </div>
+    </div>
     <header>
         <div class="container">
             <!-- Le contenu du header sera chargé dynamiquement depuis includes/header.html -->

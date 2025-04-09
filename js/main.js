@@ -188,6 +188,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Afficher le popup si l'utilisateur est sur mobile
   if (isMobileDevice()) {
-    alert("Pour une meilleure expérience utilisateur sur téléphone, veuillez tourner votre écran pour passer en mode paysage.");
+    const popup = document.getElementById('orientation-popup');
+    if (popup) {
+      popup.style.display = 'flex';
+    }
   }
 });
+
+/**
+ * Ferme le popup d'orientation
+ */
+function closeOrientationPopup() {
+  const popup = document.getElementById('orientation-popup');
+  if (popup) {
+    popup.style.display = 'none';
+  }
+}
