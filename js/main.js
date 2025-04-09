@@ -178,3 +178,16 @@ function closeImagePopup() {
         document.body.style.overflow = ''; // Réactiver le défilement de la page
     }
 }
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  // Fonction pour détecter si l'utilisateur est sur mobile
+  function isMobileDevice() {
+    return /Mobi|Android/i.test(navigator.userAgent);
+  }
+
+  // Afficher le popup si l'utilisateur est sur mobile
+  if (isMobileDevice()) {
+    alert("Pour une meilleure expérience utilisateur sur téléphone, veuillez tourner votre écran pour passer en mode paysage.");
+  }
+});
