@@ -35,7 +35,6 @@ Pour une expérience optimale :
 ```
 sentier_pedagogique_19/
 ├── arrets/               # Pages HTML pour chaque arrêt du sentier
-├── audio/                # Fichiers audio (chants d'oiseaux, etc.)
 ├── couches_webmapping/   # Données géographiques (GeoJSON)
 ├── css/                  # Feuilles de style
 ├── img/                  # Images et photos
