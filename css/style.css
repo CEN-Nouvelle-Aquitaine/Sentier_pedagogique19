@@ -12833,3 +12833,506 @@ audio::-webkit-media-controls-play-button {
 .popup-button:hover {
     background-color: var(--secondary-color);
 }
+
+
+
+/* Styles pour uniformiser les dimensions des images d'arrêt dans index.html */
+.arret-image {
+    height: 250px; /* Hauteur fixe pour toutes les div arret-image */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    overflow: hidden;
+    margin-bottom: 0; /* Supprimé la marge inférieure */
+    border-radius: 8px 8px 0 0; /* Coins arrondis seulement en haut */
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.arret-image img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* Garde les proportions de l'image tout en la contenant dans l'espace */
+    transition: transform 0.5s ease;
+}
+
+/* Styles modernes pour les cartes d'arrêt */
+.arrets-grid {
+    gap: 2.5rem; /* Augmente l'espace entre les cartes */
+}
+
+.arret-card {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.arret-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.arret-card:hover .arret-image img {
+    transform: scale(1.05);
+}
+
+.arret-content {
+    padding: 1.5rem;
+    position: relative;
+}
+
+.arret-content h3 {
+    color: var(--primary-color);
+    margin-bottom: 0.75rem;
+    font-size: 1.3rem;
+    position: relative;
+    display: inline-block;
+}
+
+.arret-content h3::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 40px;
+    height: 3px;
+    background-color: var(--accent-color);
+    transition: width 0.3s ease;
+}
+
+.arret-card:hover .arret-content h3::after {
+    width: 100%;
+}
+
+.arret-content p {
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.arret-link {
+    display: inline-block;
+    color: var(--primary-color);
+    font-weight: 600;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    background-color: rgba(46, 125, 50, 0.1);
+    transition: all 0.3s ease;
+}
+
+.arret-link:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.arret-link i {
+    margin-left: 5px;
+    transition: transform 0.3s ease;
+}
+
+.arret-link:hover i {
+    transform: translateX(5px);
+}
+
+
+/* Styles spécifiques pour les sites de tourbières */
+.sites-grid {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.site-card {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.site-card:hover {
+    transform: translateY(-5px);
+}
+
+.site-image {
+    margin-bottom: 1rem;
+    overflow: hidden;
+    border-radius: 6px;
+}
+
+.site-name {
+    color: #2e7d32;
+    margin: 0.5rem 0;
+    font-size: 1.2rem;
+}
+
+.site-location {
+    color: #555;
+    font-style: italic;
+    margin-top: 0;
+}
+
+
+.plant-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.plant-card {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.plant-name {
+    padding: 0.8rem;
+    text-align: center;
+    font-weight: bold;
+    color: #2e7d32;
+}
+
+.species-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.species-card {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding-bottom: 1rem;
+}
+
+.species-description {
+    padding: 0 1rem 1rem 1rem;
+}
+
+.species-name {
+    padding: 1rem;
+    font-weight: bold;
+    color: #2e7d32;
+    font-size: 1.1rem;
+}
+
+.map-section {
+    margin-top: 2rem;
+}
+
+.map-container {
+    width: 100%;
+    height: 400px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.interactive-map {
+    width: 100%;
+    height: 100%;
+}
+
+.map-info {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 0.5rem;
+}
+
+
+.bird-grid, .animal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+.bird-card, .animal-card {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding-bottom: 1rem;
+    width: 100%;
+}
+
+.bird-info, .animal-info {
+    padding: 1rem;
+}
+
+.bird-name, .animal-name {
+    font-weight: bold;
+    color: #2e7d32;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.audio-link {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: #2e7d32;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.audio-link:hover {
+    text-decoration: underline;
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.video-card {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    text-align: center;
+}
+
+.video-link {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: #2e7d32;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.video-link:hover {
+    text-decoration: underline;
+}
+
+.video-icon {
+    font-size: 2rem;
+    color: #f9a825;
+    margin-bottom: 0.5rem;
+}
+
+/* Styles modifiés pour les empreintes d'animaux */
+.animal-image-container {
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+}
+
+.animal-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.animal-image-container .click-hint {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: rgba(46, 125, 50, 0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+.track-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: all 0.3s ease-in-out;
+    z-index: 1;
+}
+
+.track-container.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.track-image {
+    max-width: 150px;
+    margin: 0.5rem auto;
+}
+
+.track-label {
+    font-weight: bold;
+    color: #2e7d32;
+    text-align: center;
+    margin-top: 0.5rem;
+    padding: 0 10px;
+}
+
+/* Media queries pour la responsivité */
+@media (max-width: 768px) {
+    .bird-grid, .animal-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .track-image {
+        max-width: 120px;
+    }
+}
+
+@media (max-width: 576px) {
+    .bird-grid, .animal-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .bird-card, .animal-card {
+        max-width: 100%;
+    }
+    
+    .animal-image-container {
+        aspect-ratio: 4 / 3;
+    }
+    
+    .animal-image-container .click-hint {
+        padding: 4px 8px;
+        font-size: 0.7rem;
+    }
+    
+    .track-label {
+        font-size: 0.9rem;
+    }
+}
+
+/* Styles pour la carte interactive */
+.map-section {
+    margin-top: 2rem;
+}
+
+.map-container {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.interactive-map {
+    width: 100%;
+    height: 100%;
+}
+
+.map-info {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: rgba(46, 125, 50, 0.8);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    z-index: 2;
+}
+
+
+
+.nature-quote {
+    font-style: italic;
+    font-size: 1.2rem;
+    color: #1b5e20;
+    text-align: center;
+    margin: 2rem 0;
+    padding: 1.5rem;
+    background-color: rgba(46, 125, 50, 0.1);
+    border-radius: 8px;
+}
+
+.mnemonic {
+    font-weight: bold;
+    background-color: #f9a825;
+    color: #333;
+    padding: 0.5rem 2.5rem 0.5rem 1rem;
+    border-radius: 4px;
+    display: inline-block;
+    margin: 1rem 0;
+    transition: all 0.3s ease;
+    position: relative;
+    cursor: pointer;
+}
+
+.mnemonic:hover {
+    background-color: #f57f17;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.arret-highlight {
+    font-weight: bold;
+}
+
+.tree-comparison {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.comparison-image {
+    width: 80%;
+    height: auto;
+    margin: 1rem auto;
+}
+
+.tree-labels {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+}
+
+.tree-label {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.hetre-label {
+    color: #2ecc71;
+}
+
+.charme-label {
+    color: #e74c3c;
+}
+
+.tap-icon {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    color: #333;
+}
