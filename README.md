@@ -44,12 +44,9 @@ sentier_pedagogique_19/
 └── index.html            # Page d'accueil
 ```
 
-## 📝 Licence
-
-Ce projet est développé par le Conservatoire d'Espaces Naturels de Nouvelle-Aquitaine (CEN-NA)
-
 ## 📞 Contact
 
+Ce projet est développé par le Conservatoire d'Espaces Naturels de Nouvelle-Aquitaine (CEN-NA)
 Pour toute question ou suggestion concernant ce projet, veuillez contacter la DSI du CEN Nouvelle-Aquitaine.
 
 ---
