@@ -12,19 +12,17 @@ Ce site web accompagne les visiteurs le long d'un parcours balisé à travers di
 - **Contenu multimédia** : photos, vidéos et fichiers audio
 - **Adaptation responsive** pour une consultation optimale sur tous les appareils
 - **Interface intuitive** pour une navigation facile entre les différents arrêts
-- **Conversion de coordonnées** entre les systèmes de projection Lambert 93 et WGS84
 
 ## 🔧 Technologies utilisées
 
 - HTML5, CSS3, JavaScript
 - [Leaflet](https://leafletjs.com/) pour les cartes interactives
-- [Proj4js](http://proj4js.org/) pour la conversion des coordonnées géographiques
 - [Font Awesome](https://fontawesome.com/) pour les icônes
 - Déploiement via GitHub Pages
 
 ## 📱 Utilisation
 
-Le site est accessible à l'adresse : [https://cen-nouvelle-aquitaine.github.io/Sentier_pedagogique19/](https://cen-nouvelle-aquitaine.github.io/Sentier_pedagogique19/)
+Le site est accessible à l'adresse : [https://sentier-interpretation-au-coeur-du-plateau.cen-nouvelle-aquitaine.com](Sentier pédagogique)
 
 Pour une expérience optimale :
 1. Scannez les QR codes présents sur les panneaux du sentier
@@ -47,20 +45,13 @@ sentier_pedagogique_19/
 └── index.html            # Page d'accueil
 ```
 
-## 🔄 Particularités techniques
-
-- Les fichiers GeoJSON utilisent la projection Lambert 93 (EPSG:2154) et sont convertis en WGS84 pour l'affichage sur Leaflet
-- Un point sur la carte peut être associé à plusieurs arrêts via la propriété "arrets" dans le fichier GeoJSON
-- Le script de carte est réutilisé sur toutes les pages d'arrêt pour éviter la duplication de code
-
 ## 📝 Licence
 
-Ce projet est développé par le Conservatoire d'Espaces Naturels (CEN) de Nouvelle-Aquitaine.
+Ce projet est développé par le Conservatoire d'Espaces Naturels de Nouvelle-Aquitaine (CEN-NA)
 
 ## 📞 Contact
 
-Pour toute question ou suggestion concernant ce projet, veuillez contacter le CEN Nouvelle-Aquitaine.
+Pour toute question ou suggestion concernant ce projet, veuillez contacter la DSI du CEN Nouvelle-Aquitaine.
 
 ---
 
-*Projet réalisé dans le cadre de la valorisation des espaces naturels du Parc Naturel Régional de Millevaches en Limousin.*
