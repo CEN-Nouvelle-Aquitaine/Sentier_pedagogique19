@@ -22,7 +22,7 @@ Ce site web accompagne les visiteurs le long d'un parcours balisé à travers di
 
 ## 📱 Utilisation
 
-Le site est accessible à l'adresse : [https://sentier-interpretation-au-coeur-du-plateau.cen-nouvelle-aquitaine.com](Sentier pédagogique)
+Le site est accessible à l'adresse : [Sentier pédagogique](https://sentier-interpretation-au-coeur-du-plateau.cen-nouvelle-aquitaine.com)
 
 Pour une expérience optimale :
 1. Scannez les QR codes présents sur les panneaux du sentier
