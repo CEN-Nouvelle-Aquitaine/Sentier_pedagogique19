@@ -32,8 +32,15 @@
             
             <div class="arret-content">
                 <div class="quiz-container">
-                    <h3>Quiz sur la pierre de clôture</h3>
+                    <h3>Quiz arrêt 4</h3>
                     <iframe src="https://qruiz.net/Q/?kzAaG2" frameborder="0" width="100%" height="750px"></iframe>
+                    
+                    <div class="quiz-answer">
+                        <button id="showAnswerBtn" class="quiz-answer-button">Voir la réponse</button>
+                        <div id="answerContent" class="quiz-answer-content">
+                            <p><strong>Bonne réponse:</strong> "Une pierre de clotûre"</p>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -66,5 +73,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.9.0/proj4.js"></script>
     <script src="https://unpkg.com/proj4leaflet@1.0.2/src/proj4leaflet.js"></script>
     <script src="../js/map.js"></script>
+    
+    <!-- Script pour afficher/masquer la réponse au quiz -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const showAnswerBtn = document.getElementById('showAnswerBtn');
+            const answerContent = document.getElementById('answerContent');
+            
+            showAnswerBtn.addEventListener('click', function() {
+                if (answerContent.style.display === 'block') {
+                    answerContent.style.display = 'none';
+                    showAnswerBtn.textContent = 'Voir la réponse';
+                } else {
+                    answerContent.style.display = 'block';
+                    showAnswerBtn.textContent = 'Masquer la réponse';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
