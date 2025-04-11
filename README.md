@@ -22,7 +22,7 @@ Ce site web accompagne les visiteurs le long d'un parcours balisé à travers di
 
 ## 📱 Utilisation
 
-Le site est accessible à l'adresse : [https://sentier-interpretation-au-coeur-du-plateau.cen-nouvelle-aquitaine.com](Sentier pédagogique)
+Le site est accessible à l'adresse : [Sentier pédagogique](https://sentier-interpretation-au-coeur-du-plateau.cen-nouvelle-aquitaine.com)
 
 Pour une expérience optimale :
 1. Scannez les QR codes présents sur les panneaux du sentier
@@ -35,7 +35,6 @@ Pour une expérience optimale :
 ```
 sentier_pedagogique_19/
 ├── arrets/               # Pages HTML pour chaque arrêt du sentier
-├── audio/                # Fichiers audio (chants d'oiseaux, etc.)
 ├── couches_webmapping/   # Données géographiques (GeoJSON)
 ├── css/                  # Feuilles de style
 ├── img/                  # Images et photos
@@ -45,11 +44,9 @@ sentier_pedagogique_19/
 └── index.html            # Page d'accueil
 ```
 
-## 📝 Licence
-
-Ce projet est développé par le Conservatoire d'Espaces Naturels de Nouvelle-Aquitaine (CEN-NA)
-
 ## 📞 Contact
+
+Ce site est développé par le Conservatoire d'Espaces Naturels de Nouvelle-Aquitaine (CEN-NA)
 
 Pour toute question ou suggestion concernant ce projet, veuillez contacter la DSI du CEN Nouvelle-Aquitaine.
 
