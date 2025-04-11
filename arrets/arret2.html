@@ -24,14 +24,23 @@
             
             <div class="arret-image">
                 <img src="../img/3 - Levade.jpg" alt="La levade" class="main-image">
+            </div>
+            
+            <div class="arret-description">
                 <p>Vous cheminez actuellement le long d'une levade, un élément caractéristique du petit patrimoine bâti disséminé sur le Plateau de Millevaches.<br> Nous vous invitons maintenant à découvrir ce qu'est une levade :</p>
-                
             </div>
             
             <div class="arret-content">
                 <div class="quiz-container">
                     <h3>Quiz sur la levade</h3>
                     <iframe src="https://qruiz.net/Q/?cC4TiH" frameborder="0" width="100%" height="750px"></iframe>
+                    
+                    <div class="quiz-answer">
+                        <button id="showAnswerBtn" class="quiz-answer-button">Voir la réponse</button>
+                        <div id="answerContent" class="quiz-answer-content">
+                            <p><strong>Bonne réponse:</strong> "Fossé où on détournait l'eau de ruisseau afin de faire fondre la neige présente sur le site, pour irriguer la prairie"</p>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -63,6 +72,25 @@
     <!-- Proj4js pour la conversion des coordonnées -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.9.0/proj4.js"></script>
     <script src="https://unpkg.com/proj4leaflet@1.0.2/src/proj4leaflet.js"></script>
+    <!-- Script pour la carte -->
     <script src="../js/map.js"></script>
+    
+    <!-- Script pour afficher/masquer la réponse au quiz -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const showAnswerBtn = document.getElementById('showAnswerBtn');
+            const answerContent = document.getElementById('answerContent');
+            
+            showAnswerBtn.addEventListener('click', function() {
+                if (answerContent.style.display === 'block') {
+                    answerContent.style.display = 'none';
+                    showAnswerBtn.textContent = 'Voir la réponse';
+                } else {
+                    answerContent.style.display = 'block';
+                    showAnswerBtn.textContent = 'Masquer la réponse';
+                }
+            });
+        });
+    </script>
 </body>
 </html>

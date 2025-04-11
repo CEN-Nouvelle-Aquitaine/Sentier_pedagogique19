@@ -9,7 +9,7 @@
 { "type": "Feature", "properties": { "id": 4, "Arrêts": "Pause au coeur du vivant", "arrets": "8" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 2.044905373391646, 45.632847884224532 ] ] } },
 { "type": "Feature", "properties": { "id": 5, "Arrêts": "Témoignages d'hier, trésors d'aujourd'hui (Grands Hêtres et chemin creux)", "arrets": "10" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 2.044494475334254, 45.632201406103242 ] ] } },
 { "type": "Feature", "properties": { "id": 8, "Arrêts": "Témoignages d'hier, trésors d'aujourd'hui (Sautadour)", "arrets": "7" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 2.044126968984704, 45.633094491544604 ] ] } },
-{ "type": "Feature", "properties": { "id": 9, "Arrêts": "Témoignages d'hier, trésors d'aujourd'hui (Moulins)", "arrets": "9" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 2.042933914363639, 45.631103096069971 ] ] } },
+{ "type": "Feature", "properties": { "id": 9, "Arrêts": "Témoignages d'hier, trésors d'aujourd'hui (Moulins)", "arrets": "9" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 2.04472428231769, 45.632500273025769 ] ] } },
 { "type": "Feature", "properties": { "id": 10, "Arrêts": "Protégeons la nature ensemble / Faune et flore au fil de l'eau", "arrets": "5,6" }, "geometry": { "type": "MultiPoint", "coordinates": [ [ 2.043090716213345, 45.633679757173383 ] ] } }
 ]
 }
